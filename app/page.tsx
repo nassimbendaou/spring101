@@ -738,9 +738,13 @@ export default function Home() {
           <a href="#planner">Pace</a>
           <a href="#modules">Modules</a>
           <a href="#playground">Playground</a>
+          <a href="/interview-101">Interview 101</a>
         </nav>
 
         <div className="header-actions">
+          <a className="interview-nav-cta" href="/interview-101">
+            Interview 101 <span aria-hidden="true">→</span>
+          </a>
           <button
             className="progress-pill"
             type="button"
