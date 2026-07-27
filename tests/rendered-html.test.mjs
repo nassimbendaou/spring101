@@ -29,7 +29,10 @@ test("renders development preview metadata", async () => {
     response.headers.get("content-type") ?? "",
     /^text\/html\b/i,
   );
-  assert.match(await response.text(), developmentPreviewMeta);
+  const html = await response.text();
+  assert.match(html, developmentPreviewMeta);
+  assert.match(html, /Retrouvez vos réflexes Spring/);
+  assert.match(html, /lang="fr"/);
 });
 
 test("renders the Interview 101 route", async () => {

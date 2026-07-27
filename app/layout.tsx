@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Spring Boot Lab — Learn Spring Boot from zero",
+  title: "Spring Boot Lab — Apprendre Spring Boot depuis zéro",
   description:
-    "A hands-on Spring Boot learning path for experienced software engineers refreshing modern Java.",
+    "Un parcours pratique pour les ingénieurs logiciels qui souhaitent actualiser Java moderne et maîtriser Spring Boot.",
   other: {
     "codex-preview": "development",
   },
@@ -31,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

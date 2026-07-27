@@ -30,19 +30,19 @@ const STUDY_DAYS_KEY = "spring-boot-lab-study-days";
 const modules: CourseModule[] = [
   {
     id: 1,
-    phase: "Foundation",
-    title: "Modern Java reset",
+    phase: "Fondations",
+    title: "Remise à niveau Java moderne",
     duration: "35 min",
     tag: "Java 21",
     summary:
-      "Refresh only the Java features you will actually use in a modern Spring codebase.",
+      "Révisez uniquement les fonctionnalités Java réellement utiles dans une application Spring moderne.",
     objectives: [
-      "Use records for immutable request and response models.",
-      "Read switch expressions, pattern matching and sealed hierarchies.",
-      "Choose Optional and streams without hiding business logic.",
+      "Utiliser les records pour des modèles de requête et de réponse immuables.",
+      "Comprendre les expressions switch, le pattern matching et les hiérarchies sealed.",
+      "Employer Optional et les streams sans masquer la logique métier.",
     ],
     mentalModel:
-      "Modern Java reduces accidental ceremony. Use the new language tools to make intent explicit—not to compress every operation into one expression.",
+      "Java moderne réduit le code cérémoniel. Utilisez ses nouveaux outils pour rendre l’intention explicite, pas pour compresser chaque opération en une seule expression.",
     code: `public record CreateTicketRequest(
     @NotBlank String title,
     @NotNull Priority priority
@@ -56,35 +56,35 @@ String label = switch (priority) {
     case MEDIUM, LOW -> "standard";
 };`,
     task:
-      "Replace a mutable ticket DTO with a record. Add validation annotations and map it to a domain command.",
-    deliverable: "A validated immutable input model and a clean mapper.",
+      "Remplacez un DTO de ticket mutable par un record. Ajoutez les annotations de validation et mappez-le vers une commande métier.",
+    deliverable: "Un modèle d’entrée immuable validé et un mapper propre.",
     quiz: {
-      question: "What is the strongest use case for a Java record in a Spring API?",
+      question: "Quel est le meilleur cas d’usage d’un record Java dans une API Spring ?",
       options: [
-        "A JPA entity with lazy-loaded relations",
-        "An immutable request or response value",
-        "A mutable service with injected dependencies",
+        "Une entité JPA avec des relations chargées paresseusement",
+        "Une valeur immuable de requête ou de réponse",
+        "Un service mutable avec des dépendances injectées",
       ],
       answer: 1,
       explanation:
-        "Records are ideal value carriers. JPA entities usually need lifecycle-aware identity, proxies and controlled mutability.",
+        "Les records sont parfaits pour transporter des valeurs. Les entités JPA ont généralement besoin d’une identité liée au cycle de vie, de proxies et d’une mutabilité contrôlée.",
     },
   },
   {
     id: 2,
-    phase: "Foundation",
-    title: "Spring mental model",
+    phase: "Fondations",
+    title: "Le modèle mental de Spring",
     duration: "30 min",
     tag: "Core",
     summary:
-      "Understand the container, beans, dependency injection and why constructor injection wins.",
+      "Comprenez le conteneur, les beans, l’injection de dépendances et l’intérêt de l’injection par constructeur.",
     objectives: [
-      "Explain IoC without relying on annotation vocabulary.",
-      "Distinguish component discovery from explicit bean configuration.",
-      "Spot circular dependencies and service-locator design.",
+      "Expliquer l’IoC sans se limiter au vocabulaire des annotations.",
+      "Distinguer la détection de composants de la configuration explicite des beans.",
+      "Repérer les dépendances circulaires et le pattern Service Locator.",
     ],
     mentalModel:
-      "Your code declares an object graph; the Spring container builds and owns that graph. Constructor injection makes every required edge visible and testable.",
+      "Votre code déclare un graphe d’objets ; le conteneur Spring le construit et le gère. L’injection par constructeur rend chaque dépendance requise visible et testable.",
     code: `@Service
 final class TicketSyncService {
     private final TicketRepository tickets;
@@ -99,35 +99,35 @@ final class TicketSyncService {
     }
 }`,
     task:
-      "Draw the object graph for Controller → Service → Repository + external API client. Then instantiate the service in a unit test without Spring.",
-    deliverable: "A dependency graph with no field injection and no hidden globals.",
+      "Dessinez le graphe Controller → Service → Repository + client d’API externe. Instanciez ensuite le service dans un test unitaire sans Spring.",
+    deliverable: "Un graphe de dépendances sans injection par champ ni variable globale cachée.",
     quiz: {
-      question: "Why prefer constructor injection over field injection?",
+      question: "Pourquoi préférer l’injection par constructeur à l’injection par champ ?",
       options: [
-        "It makes dependencies explicit and objects testable without the container",
-        "It creates fewer Spring beans at runtime",
-        "It automatically makes every dependency optional",
+        "Elle rend les dépendances explicites et les objets testables sans conteneur",
+        "Elle crée moins de beans Spring à l’exécution",
+        "Elle rend automatiquement toutes les dépendances optionnelles",
       ],
       answer: 0,
       explanation:
-        "Constructor injection exposes required collaborators, supports immutability and lets a test create the object directly.",
+        "L’injection par constructeur expose les collaborateurs requis, favorise l’immuabilité et permet aux tests de créer directement l’objet.",
     },
   },
   {
     id: 3,
     phase: "Boot",
-    title: "How Boot actually boots",
+    title: "Comment Spring Boot démarre réellement",
     duration: "35 min",
     tag: "Boot 4.1",
     summary:
-      "Demystify starters, auto-configuration, conditions and the application startup sequence.",
+      "Démystifiez les starters, l’auto-configuration, les conditions et la séquence de démarrage.",
     objectives: [
-      "Expand what @SpringBootApplication combines.",
-      "Explain conditional auto-configuration and back-off.",
-      "Choose focused starters instead of a dependency grab bag.",
+      "Décomposer ce que regroupe @SpringBootApplication.",
+      "Expliquer l’auto-configuration conditionnelle et son mécanisme de retrait.",
+      "Choisir des starters ciblés plutôt qu’un ensemble de dépendances inutile.",
     ],
     mentalModel:
-      "Spring Boot is opinionated assembly, not magic. It observes the classpath, configuration and existing beans, then applies conditional defaults that your own beans can override.",
+      "Spring Boot est un assemblage conventionné, pas de la magie. Il observe le classpath, la configuration et les beans existants, puis applique des valeurs par défaut conditionnelles que vos beans peuvent remplacer.",
     code: `@SpringBootApplication
 public class TicketApplication {
     public static void main(String[] args) {
@@ -137,39 +137,39 @@ public class TicketApplication {
     }
 }
 
-// Boot 4.1: use the focused MVC starter
+// Boot 4.1 : utiliser le starter MVC ciblé
 // org.springframework.boot:
 // spring-boot-starter-webmvc`,
     task:
-      "Generate a project with Spring Initializr using Web MVC, Validation and Actuator. Run with --debug and inspect the condition evaluation report.",
-    deliverable: "A running app plus three auto-configurations you can explain.",
+      "Générez un projet avec Spring Initializr en utilisant Web MVC, Validation et Actuator. Lancez-le avec --debug et analysez le rapport d’évaluation des conditions.",
+    deliverable: "Une application fonctionnelle et trois auto-configurations que vous savez expliquer.",
     quiz: {
-      question: "When does an auto-configuration usually back off?",
+      question: "Quand une auto-configuration se désactive-t-elle généralement ?",
       options: [
-        "Whenever a profile is active",
-        "When the application provides its own matching bean",
-        "Only when @EnableAutoConfiguration is removed",
+        "Dès qu’un profil est actif",
+        "Quand l’application fournit son propre bean correspondant",
+        "Uniquement quand @EnableAutoConfiguration est retirée",
       ],
       answer: 1,
       explanation:
-        "Many Boot defaults use conditions such as @ConditionalOnMissingBean, so your explicit configuration takes precedence.",
+        "De nombreux réglages Boot utilisent des conditions comme @ConditionalOnMissingBean : votre configuration explicite reste donc prioritaire.",
     },
   },
   {
     id: 4,
     phase: "Web",
-    title: "Production REST APIs",
+    title: "API REST prêtes pour la production",
     duration: "50 min",
     tag: "MVC",
     summary:
-      "Build thin controllers with validation, stable error contracts and correct HTTP semantics.",
+      "Construisez des contrôleurs fins avec validation, contrats d’erreur stables et sémantique HTTP correcte.",
     objectives: [
-      "Separate transport DTOs from domain models.",
-      "Validate inputs and map exceptions centrally.",
-      "Use status codes, idempotency and pagination deliberately.",
+      "Séparer les DTO de transport des modèles métier.",
+      "Valider les entrées et mapper les exceptions de manière centralisée.",
+      "Utiliser délibérément les statuts HTTP, l’idempotence et la pagination.",
     ],
     mentalModel:
-      "The controller is an adapter. It translates HTTP into an application use case and translates the result back—business rules stay elsewhere.",
+      "Le contrôleur est un adaptateur. Il traduit HTTP en cas d’usage applicatif, puis restitue le résultat ; les règles métier restent ailleurs.",
     code: `@RestController
 @RequestMapping("/api/tickets")
 class TicketController {
@@ -186,35 +186,35 @@ class TicketController {
     }
 }`,
     task:
-      "Create POST /api/tickets and GET /api/tickets/{id}. Return ProblemDetail for validation and not-found errors.",
-    deliverable: "Two endpoints, a stable error shape and curl examples.",
+      "Créez POST /api/tickets et GET /api/tickets/{id}. Retournez ProblemDetail pour les erreurs de validation et de ressource introuvable.",
+    deliverable: "Deux endpoints, un format d’erreur stable et des exemples curl.",
     quiz: {
-      question: "Where should the rule “a closed ticket cannot be reassigned” live?",
+      question: "Où doit vivre la règle « un ticket fermé ne peut pas être réaffecté » ?",
       options: [
-        "Inside the React client",
-        "Inside the controller",
-        "Inside the domain or application service",
+        "Dans le client React",
+        "Dans le contrôleur",
+        "Dans le domaine ou le service applicatif",
       ],
       answer: 2,
       explanation:
-        "It is a business invariant and must hold regardless of whether the caller is HTTP, a message consumer or a test.",
+        "C’est un invariant métier qui doit rester vrai que l’appelant soit HTTP, un consommateur de messages ou un test.",
     },
   },
   {
     id: 5,
-    phase: "Data",
-    title: "PostgreSQL & transactions",
+    phase: "Données",
+    title: "PostgreSQL et transactions",
     duration: "55 min",
     tag: "JPA",
     summary:
-      "Model persistence boundaries, transactions and query behavior without falling into ORM traps.",
+      "Modélisez les frontières de persistance, les transactions et le comportement des requêtes sans tomber dans les pièges de l’ORM.",
     objectives: [
-      "Define transaction boundaries in the service layer.",
-      "Detect N+1 queries and unsafe lazy loading.",
-      "Use Flyway migrations and database constraints.",
+      "Définir les frontières transactionnelles dans la couche service.",
+      "Détecter les requêtes N+1 et les chargements paresseux risqués.",
+      "Utiliser les migrations Flyway et les contraintes de base de données.",
     ],
     mentalModel:
-      "JPA is a unit-of-work abstraction over SQL, not a replacement for understanding SQL. The database remains the final guardian of consistency.",
+      "JPA est une abstraction Unit of Work au-dessus de SQL, pas un remplacement de la compréhension de SQL. La base reste la garante finale de la cohérence.",
     code: `@Transactional
 public Ticket assign(UUID id, UUID engineerId) {
     var ticket = tickets.findByIdForUpdate(id)
@@ -224,39 +224,39 @@ public Ticket assign(UUID id, UUID engineerId) {
     return ticket;
 }
 
-// Migration owns the real constraint:
+// La migration porte la contrainte réelle :
 // alter table ticket
 // add constraint ticket_title_not_blank ...`,
     task:
-      "Persist tickets in PostgreSQL, add a Flyway migration and prove rollback when the external mapping write fails.",
-    deliverable: "Schema migration, repository query and transactional test.",
+      "Persistez les tickets dans PostgreSQL, ajoutez une migration Flyway et démontrez le rollback lorsque l’écriture du mapping externe échoue.",
+    deliverable: "Une migration de schéma, une requête repository et un test transactionnel.",
     quiz: {
-      question: "What does @Transactional primarily define?",
+      question: "Que définit principalement @Transactional ?",
       options: [
-        "A cache entry",
-        "An atomic consistency boundary",
-        "A REST retry policy",
+        "Une entrée de cache",
+        "Une frontière atomique de cohérence",
+        "Une politique de retry REST",
       ],
       answer: 1,
       explanation:
-        "It groups database work into a transaction boundary. It does not make remote API calls atomic with your database.",
+        "Elle regroupe les opérations de base de données dans une frontière transactionnelle. Elle ne rend pas les appels d’API distants atomiques avec votre base.",
     },
   },
   {
     id: 6,
-    phase: "Quality",
-    title: "Tests that earn trust",
+    phase: "Qualité",
+    title: "Des tests qui inspirent confiance",
     duration: "50 min",
     tag: "JUnit 5",
     summary:
-      "Use fast unit tests, focused Spring slices and realistic integration tests with Testcontainers.",
+      "Utilisez des tests unitaires rapides, des slices Spring ciblées et des tests d’intégration réalistes avec Testcontainers.",
     objectives: [
-      "Know when not to use @SpringBootTest.",
-      "Test MVC, persistence and business logic at the right layer.",
-      "Run PostgreSQL integration tests with Testcontainers.",
+      "Savoir quand ne pas utiliser @SpringBootTest.",
+      "Tester MVC, la persistance et la logique métier dans la bonne couche.",
+      "Exécuter des tests d’intégration PostgreSQL avec Testcontainers.",
     ],
     mentalModel:
-      "Choose the smallest test environment that can disprove the behavior. A full context test is valuable only when context wiring is part of the risk.",
+      "Choisissez le plus petit environnement de test capable d’invalider le comportement. Un contexte complet n’est utile que lorsque le câblage Spring fait partie du risque.",
     code: `@WebMvcTest(TicketController.class)
 class TicketControllerTest {
     @Autowired MockMvc mvc;
@@ -271,35 +271,35 @@ class TicketControllerTest {
     }
 }`,
     task:
-      "Write one pure unit test, one @WebMvcTest and one PostgreSQL Testcontainers test for the same ticket flow.",
-    deliverable: "A three-layer test suite with clear failure ownership.",
+      "Écrivez un test unitaire pur, un @WebMvcTest et un test PostgreSQL avec Testcontainers pour le même parcours de ticket.",
+    deliverable: "Une suite de tests en trois couches avec une responsabilité d’échec claire.",
     quiz: {
-      question: "What is the best default test for a pure pricing rule?",
+      question: "Quel est le meilleur test par défaut pour une règle tarifaire pure ?",
       options: [
-        "A plain JUnit test with no Spring context",
-        "@SpringBootTest with a real web server",
+        "Un test JUnit simple sans contexte Spring",
+        "Un @SpringBootTest avec un vrai serveur web",
         "@DataJpaTest",
       ],
       answer: 0,
       explanation:
-        "Pure business logic should be tested as a normal object. Starting Spring would add time without increasing confidence.",
+        "La logique métier pure doit être testée comme un objet normal. Démarrer Spring ajouterait du temps sans augmenter la confiance.",
     },
   },
   {
     id: 7,
-    phase: "Operations",
-    title: "Configuration without surprises",
+    phase: "Exploitation",
+    title: "Une configuration sans surprise",
     duration: "35 min",
     tag: "Config",
     summary:
-      "Handle profiles, typed properties, secrets and environment differences safely.",
+      "Gérez en sécurité les profils, propriétés typées, secrets et différences entre environnements.",
     objectives: [
-      "Bind grouped settings with @ConfigurationProperties.",
-      "Use profiles sparingly and keep secrets outside Git.",
-      "Validate required configuration at startup.",
+      "Regrouper les réglages avec @ConfigurationProperties.",
+      "Utiliser les profils avec parcimonie et garder les secrets hors de Git.",
+      "Valider la configuration obligatoire au démarrage.",
     ],
     mentalModel:
-      "Configuration is an input to your application. Parse and validate it at the boundary just like an HTTP request.",
+      "La configuration est une entrée de votre application. Analysez-la et validez-la à la frontière, comme une requête HTTP.",
     code: `@ConfigurationProperties("acn.client")
 @Validated
 public record AcnClientProperties(
@@ -311,35 +311,35 @@ public record AcnClientProperties(
 # application.yaml
 acn.client.timeout: 2s`,
     task:
-      "Create typed properties for an external API client. Make startup fail with a readable error when baseUrl is absent.",
-    deliverable: "Validated configuration with local and production examples.",
+      "Créez des propriétés typées pour un client d’API externe. Faites échouer le démarrage avec une erreur lisible lorsque baseUrl est absente.",
+    deliverable: "Une configuration validée avec des exemples locaux et de production.",
     quiz: {
-      question: "Where should a production API secret live?",
+      question: "Où doit être stocké le secret d’une API de production ?",
       options: [
-        "Committed in application-prod.yaml",
-        "In an external secret store or injected environment",
-        "Inside a Java constant",
+        "Dans application-prod.yaml versionné",
+        "Dans un gestionnaire de secrets externe ou injecté par l’environnement",
+        "Dans une constante Java",
       ],
       answer: 1,
       explanation:
-        "Secrets must be supplied at runtime through controlled secret management, not committed with source.",
+        "Les secrets doivent être fournis à l’exécution via une gestion contrôlée, jamais versionnés avec le code source.",
     },
   },
   {
     id: 8,
-    phase: "Security",
-    title: "Security & JWT",
+    phase: "Sécurité",
+    title: "Sécurité et JWT",
     duration: "55 min",
     tag: "OAuth2",
     summary:
-      "Secure a stateless API with an explicit filter chain and authorization rules.",
+      "Sécurisez une API stateless avec une chaîne de filtres explicite et des règles d’autorisation.",
     objectives: [
-      "Separate authentication from authorization.",
-      "Configure a JWT resource server.",
-      "Apply method and endpoint authorization without leaking claims everywhere.",
+      "Séparer l’authentification de l’autorisation.",
+      "Configurer un resource server JWT.",
+      "Appliquer l’autorisation sur les méthodes et endpoints sans propager les claims partout.",
     ],
     mentalModel:
-      "Authentication proves identity; authorization decides permission. Keep token parsing at the security boundary and pass useful identity into use cases.",
+      "L’authentification prouve l’identité ; l’autorisation décide des permissions. Gardez l’analyse du token à la frontière de sécurité et transmettez une identité utile aux cas d’usage.",
     code: `@Bean
 SecurityFilterChain api(HttpSecurity http)
     throws Exception {
@@ -352,31 +352,31 @@ SecurityFilterChain api(HttpSecurity http)
         .build();
 }`,
     task:
-      "Protect ticket endpoints with JWT while keeping health checks public. Add one authorization test.",
-    deliverable: "SecurityFilterChain plus authenticated and forbidden test cases.",
+      "Protégez les endpoints de tickets avec JWT tout en gardant les health checks publics. Ajoutez un test d’autorisation.",
+    deliverable: "Une SecurityFilterChain et des tests de cas authentifié et interdit.",
     quiz: {
-      question: "What should an API return for an authenticated user without permission?",
-      options: ["401 Unauthorized", "403 Forbidden", "404 Always"],
+      question: "Que doit retourner une API pour un utilisateur authentifié mais non autorisé ?",
+      options: ["401 Unauthorized", "403 Forbidden", "Toujours 404"],
       answer: 1,
       explanation:
-        "401 means authentication is missing or invalid. 403 means identity is known but the action is not allowed.",
+        "401 indique une authentification absente ou invalide. 403 signifie que l’identité est connue mais que l’action n’est pas autorisée.",
     },
   },
   {
     id: 9,
-    phase: "Integration",
-    title: "External systems & events",
+    phase: "Intégration",
+    title: "Systèmes externes et événements",
     duration: "60 min",
-    tag: "Resilience",
+    tag: "Résilience",
     summary:
-      "Integrate REST and messaging with timeouts, idempotency and failure-aware boundaries.",
+      "Intégrez REST et la messagerie avec timeouts, idempotence et frontières conscientes des pannes.",
     objectives: [
-      "Configure explicit connect and read timeouts.",
-      "Make consumers and commands idempotent.",
-      "Use an outbox when database state and events must agree.",
+      "Configurer explicitement les timeouts de connexion et de lecture.",
+      "Rendre les consommateurs et les commandes idempotents.",
+      "Utiliser une outbox lorsque l’état de la base et les événements doivent rester cohérents.",
     ],
     mentalModel:
-      "The network is a partial-failure boundary. Every remote call needs a time budget, a retry decision and a duplicate-handling strategy.",
+      "Le réseau est une frontière de panne partielle. Chaque appel distant exige un budget temps, une décision de retry et une stratégie de gestion des doublons.",
     code: `@Service
 class AcnTicketGateway {
     private final RestClient client;
@@ -391,77 +391,77 @@ class AcnTicketGateway {
     }
 }`,
     task:
-      "Add an idempotent ticket-sync command. Simulate a timeout after the remote system succeeds and prove that retry does not duplicate the ticket.",
-    deliverable: "Gateway contract, timeout policy and duplicate-safe test.",
+      "Ajoutez une commande idempotente de synchronisation de ticket. Simulez un timeout après le succès du système distant et prouvez que le retry ne duplique pas le ticket.",
+    deliverable: "Un contrat de gateway, une politique de timeout et un test résistant aux doublons.",
     quiz: {
-      question: "Which failure is unsafe to solve with an unconditional retry?",
+      question: "Quelle panne est dangereuse à traiter avec un retry inconditionnel ?",
       options: [
-        "A connection refused before sending bytes",
-        "A timed-out POST with an unknown remote outcome",
-        "A local validation error",
+        "Une connexion refusée avant l’envoi des octets",
+        "Un POST expiré dont le résultat distant est inconnu",
+        "Une erreur de validation locale",
       ],
       answer: 1,
       explanation:
-        "The remote side may already have committed the POST. Retry safely only with idempotency or a reconciliation strategy.",
+        "Le système distant a peut-être déjà validé le POST. Ne réessayez qu’avec de l’idempotence ou une stratégie de réconciliation.",
     },
   },
   {
     id: 10,
-    phase: "Operations",
-    title: "Observability with Actuator",
+    phase: "Exploitation",
+    title: "Observabilité avec Actuator",
     duration: "45 min",
     tag: "Micrometer",
     summary:
-      "Expose health, metrics and traces that answer operational questions instead of producing noise.",
+      "Exposez des informations de santé, métriques et traces qui répondent aux questions opérationnelles sans produire de bruit.",
     objectives: [
-      "Use liveness and readiness with the right semantics.",
-      "Create low-cardinality business metrics.",
-      "Connect Micrometer metrics to Prometheus.",
+      "Utiliser correctement les notions de liveness et readiness.",
+      "Créer des métriques métier à faible cardinalité.",
+      "Connecter les métriques Micrometer à Prometheus.",
     ],
     mentalModel:
-      "Logs explain events, metrics show trends and traces connect a request across boundaries. Design all three around questions an operator will ask.",
+      "Les logs expliquent les événements, les métriques montrent les tendances et les traces relient une requête entre les services. Concevez les trois autour des questions de l’exploitant.",
     code: `@Component
 class SyncMetrics {
     private final Counter synced;
 
     SyncMetrics(MeterRegistry registry) {
         synced = Counter.builder("tickets.synced")
-            .description("Successfully synced tickets")
+            .description("Tickets synchronisés avec succès")
             .register(registry);
     }
 
     void success() { synced.increment(); }
 }`,
     task:
-      "Add Actuator and Prometheus metrics. Build a dashboard query for sync success rate and a readiness check for PostgreSQL.",
-    deliverable: "Health groups, one useful metric and one alert condition.",
+      "Ajoutez Actuator et les métriques Prometheus. Construisez une requête de dashboard pour le taux de synchronisation et un contrôle de readiness PostgreSQL.",
+    deliverable: "Des groupes de santé, une métrique utile et une condition d’alerte.",
     quiz: {
-      question: "Why should ticket IDs not be metric tags?",
+      question: "Pourquoi les identifiants de tickets ne doivent-ils pas être des tags de métrique ?",
       options: [
-        "They create unbounded cardinality",
-        "Micrometer cannot handle strings",
-        "Tags are only available in development",
+        "Ils créent une cardinalité non bornée",
+        "Micrometer ne gère pas les chaînes",
+        "Les tags ne sont disponibles qu’en développement",
       ],
       answer: 0,
       explanation:
-        "Unique IDs create a time series per value, which can overwhelm the metrics backend and increase cost.",
+        "Les identifiants uniques créent une série temporelle par valeur, ce qui peut saturer le backend de métriques et augmenter les coûts.",
     },
   },
   {
     id: 11,
-    phase: "Delivery",
-    title: "Docker & Kubernetes",
+    phase: "Déploiement",
+    title: "Docker et Kubernetes",
     duration: "55 min",
     tag: "Cloud",
     summary:
-      "Package efficient images and run Spring Boot with graceful, observable Kubernetes behavior.",
+      "Construisez des images efficaces et exécutez Spring Boot dans Kubernetes avec un comportement observable et maîtrisé.",
     objectives: [
-      "Build layered OCI images with buildpacks or a Dockerfile.",
-      "Separate liveness from readiness probes.",
-      "Set resource requests, graceful shutdown and JVM limits.",
+      "Construire des images OCI en couches avec des buildpacks ou un Dockerfile.",
+      "Séparer les probes de liveness et de readiness.",
+      "Configurer les ressources, l’arrêt gracieux et les limites JVM.",
     ],
     mentalModel:
-      "A container is a process contract. Kubernetes needs truthful probes, predictable shutdown and realistic resource signals—not just an image that starts.",
+      "Un conteneur est un contrat de processus. Kubernetes a besoin de probes sincères, d’un arrêt prévisible et de ressources réalistes, pas seulement d’une image qui démarre.",
     code: `management:
   endpoint.health.probes.enabled: true
   server.port: 8081
@@ -476,62 +476,62 @@ livenessProbe:
     path: /actuator/health/liveness
     port: 8081`,
     task:
-      "Containerize the service, add probes and verify that readiness fails before the application can serve traffic.",
-    deliverable: "Layered image, deployment manifest and verified shutdown behavior.",
+      "Conteneurisez le service, ajoutez les probes et vérifiez que la readiness échoue avant que l’application puisse recevoir du trafic.",
+    deliverable: "Une image en couches, un manifeste de déploiement et un arrêt gracieux vérifié.",
     quiz: {
-      question: "Should a temporary PostgreSQL outage fail liveness?",
+      question: "Une panne temporaire de PostgreSQL doit-elle faire échouer la liveness ?",
       options: [
-        "Yes, always restart the JVM",
-        "No, it should normally affect readiness instead",
-        "Only when the pod has no CPU limit",
+        "Oui, il faut toujours redémarrer la JVM",
+        "Non, elle doit normalement affecter la readiness",
+        "Uniquement lorsque le pod n’a pas de limite CPU",
       ],
       answer: 1,
       explanation:
-        "Restarting a healthy JVM rarely repairs an external database. Remove the pod from traffic through readiness while it recovers.",
+        "Redémarrer une JVM saine répare rarement une base externe. Retirez le pod du trafic grâce à la readiness pendant sa récupération.",
     },
   },
   {
     id: 12,
-    phase: "Capstone",
-    title: "Ticket Sync service",
+    phase: "Projet final",
+    title: "Service de synchronisation de tickets",
     duration: "2–3 h",
-    tag: "Project",
+    tag: "Projet",
     summary:
-      "Combine the course into a production-minded service inspired by a real enterprise integration.",
+      "Réunissez tout le cours dans un service proche de la production, inspiré d’une intégration d’entreprise réelle.",
     objectives: [
-      "Design clean boundaries for HTTP, persistence and external sync.",
-      "Guarantee idempotent incident creation and follow-up processing.",
-      "Ship tests, metrics, containerization and operational documentation.",
+      "Concevoir des frontières propres pour HTTP, la persistance et la synchronisation externe.",
+      "Garantir la création idempotente des incidents et le traitement des suivis.",
+      "Livrer les tests, métriques, conteneurisation et documentation d’exploitation.",
     ],
     mentalModel:
-      "A production service is a set of explicit contracts: domain invariants, persistence boundaries, integration guarantees and operational signals.",
+      "Un service de production est un ensemble de contrats explicites : invariants métier, frontières de persistance, garanties d’intégration et signaux opérationnels.",
     code: `POST /api/incidents
 Idempotency-Key: 8b7f...
 
 {
-  "title": "Database latency",
+  "title": "Latence de la base de données",
   "impact": "HIGH",
   "serviceId": "billing"
 }
 
-Flow:
+Flux :
 Controller → CreateIncident
            → PostgreSQL + outbox
-           → Sync worker → external API`,
+           → Worker de synchronisation → API externe`,
     task:
-      "Build the complete service: create incidents, synchronize them to an external system, store mappings, retry safely and expose operational metrics.",
+      "Construisez le service complet : création d’incidents, synchronisation avec un système externe, stockage des mappings, retries sécurisés et métriques opérationnelles.",
     deliverable:
-      "A deployable repository with architecture notes, API examples, tests, Docker/Kubernetes files and a five-minute demo.",
+      "Un dépôt déployable avec notes d’architecture, exemples d’API, tests, fichiers Docker/Kubernetes et démonstration de cinq minutes.",
     quiz: {
-      question: "What is the key benefit of an outbox in this service?",
+      question: "Quel est le principal avantage d’une outbox dans ce service ?",
       options: [
-        "It makes HTTP requests faster",
-        "It atomically records state and the intent to publish",
-        "It removes the need for retries",
+        "Elle accélère les requêtes HTTP",
+        "Elle enregistre atomiquement l’état et l’intention de publier",
+        "Elle supprime le besoin de retries",
       ],
       answer: 1,
       explanation:
-        "The database change and outbound intent commit together. A worker can later publish reliably and retry independently.",
+        "La modification en base et l’intention de sortie sont validées ensemble. Un worker peut ensuite publier de manière fiable et réessayer indépendamment.",
     },
   },
 ];
@@ -556,9 +556,9 @@ const studyUnits: StudyUnit[] = [
     title: module.title,
     minutes: moduleMinutes[index],
   })),
-  { moduleId: 12, title: "Capstone: architecture", minutes: 45 },
-  { moduleId: 12, title: "Capstone: implementation", minutes: 60 },
-  { moduleId: 12, title: "Capstone: tests & delivery", minutes: 45 },
+  { moduleId: 12, title: "Projet final : architecture", minutes: 45 },
+  { moduleId: 12, title: "Projet final : implémentation", minutes: 60 },
+  { moduleId: 12, title: "Projet final : tests et livraison", minutes: 45 },
 ];
 
 const totalCourseMinutes = studyUnits.reduce(
@@ -570,8 +570,8 @@ function formatMinutes(minutes: number) {
   const hours = Math.floor(minutes / 60);
   const remainder = minutes % 60;
   if (hours === 0) return `${remainder} min`;
-  if (remainder === 0) return `${hours}h`;
-  return `${hours}h ${remainder}m`;
+  if (remainder === 0) return `${hours} h`;
+  return `${hours} h ${remainder} min`;
 }
 
 function buildStudyPlan(days: number): StudyDay[] {
@@ -726,31 +726,31 @@ export default function Home() {
   return (
     <main>
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="Spring Boot Lab home">
+        <a className="brand" href="#top" aria-label="Accueil Spring Boot Lab">
           <span className="brand-mark" aria-hidden="true">
             <span />
           </span>
           <span>Spring Boot Lab</span>
         </a>
 
-        <nav className="main-nav" aria-label="Main navigation">
-          <a href="#path">Path</a>
-          <a href="#planner">Pace</a>
+        <nav className="main-nav" aria-label="Navigation principale">
+          <a href="#path">Parcours</a>
+          <a href="#planner">Rythme</a>
           <a href="#modules">Modules</a>
-          <a href="#playground">Playground</a>
-          <a href="/interview-101">Interview 101</a>
+          <a href="#playground">Atelier</a>
+          <a href="/interview-101">Entretien 101</a>
         </nav>
 
         <div className="header-actions">
           <a className="interview-nav-cta" href="/interview-101">
-            Interview 101 <span aria-hidden="true">→</span>
+            Entretien 101 <span aria-hidden="true">→</span>
           </a>
           <button
             className="progress-pill"
             type="button"
             onClick={() => scrollTo("path")}
           >
-            <span>{completed.length}</span> of {modules.length} modules
+            <span>{completed.length}</span> module{completed.length > 1 ? "s" : ""} sur {modules.length}
           </button>
           <span className="avatar" aria-label="Nassim profile">
             N
@@ -761,11 +761,12 @@ export default function Home() {
       <div className="page-shell" id="top">
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-copy">
-            <p className="eyebrow">Spring Boot, reintroduced</p>
-            <h1 id="hero-title">Rebuild your Spring instincts.</h1>
+            <p className="eyebrow">Redécouvrir Spring Boot</p>
+            <h1 id="hero-title">Retrouvez vos réflexes Spring.</h1>
             <p className="hero-text">
-              A hands-on path from modern Java to production-ready Spring Boot.
-              No beginner filler—just the mental models and patterns that matter.
+              Un parcours pratique, de Java moderne à une application Spring
+              Boot prête pour la production. Aucun remplissage : uniquement les
+              modèles mentaux et patterns qui comptent.
             </p>
 
             <button
@@ -774,7 +775,7 @@ export default function Home() {
               onClick={() => scrollTo("planner")}
             >
               <span>
-                Build my {studyDays}-day plan
+                Construire mon programme sur {studyDays} jour{studyDays > 1 ? "s" : ""}
               </span>
               <span className="cta-arrow" aria-hidden="true">
                 →
@@ -782,11 +783,11 @@ export default function Home() {
             </button>
 
             <p className="hero-note">
-              Finish in {studyDays} {studyDays === 1 ? "day" : "days"}
+              Terminer en {studyDays} jour{studyDays > 1 ? "s" : ""}
               <span aria-hidden="true">•</span>
-              About {formatMinutes(dailyAverage)} per day
+              Environ {formatMinutes(dailyAverage)} par jour
               <span aria-hidden="true">•</span>
-              Choose from 1 to 14 days
+              Choisissez de 1 à 14 jours
             </p>
           </div>
 
@@ -843,7 +844,7 @@ export default function Home() {
                     <span className="code-green">@Service</span>
                     {"\n"}class TicketSyncService {"{"}
                     {"\n"}  Ticket sync(TicketRequest request) {"{"}
-                    {"\n"}    <span className="code-muted">{"// business logic"}</span>
+                    {"\n"}    <span className="code-muted">{"// logique métier"}</span>
                     {"\n"}  {"}"}
                     {"\n"}
                     {"}"}
@@ -858,18 +859,18 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="dashboard-row" id="path" aria-label="Learning path summary">
+        <section className="dashboard-row" id="path" aria-label="Résumé du parcours d’apprentissage">
           <article className="path-card">
             <div className="card-heading">
               <span className="heading-icon path-icon" aria-hidden="true">
                 ↝
               </span>
-              <h2>Your path</h2>
+              <h2>Votre parcours</h2>
             </div>
 
             <div
               className="module-rail"
-              aria-label={`${completed.length} of ${modules.length} modules complete`}
+              aria-label={`${completed.length} module(s) terminé(s) sur ${modules.length}`}
             >
               {modules.map((module) => (
                 <button
@@ -882,7 +883,7 @@ export default function Home() {
                   }
                   key={module.id}
                   type="button"
-                  aria-label={`Open module ${module.id}: ${module.title}`}
+                  aria-label={`Ouvrir le module ${module.id} : ${module.title}`}
                   onClick={() => openModule(module.id)}
                 >
                   {completed.includes(module.id) ? "✓" : module.id}
@@ -891,7 +892,7 @@ export default function Home() {
             </div>
 
             <div className="path-progress">
-              <strong>{completed.length}</strong> of {modules.length} modules
+              <strong>{completed.length}</strong> module{completed.length > 1 ? "s" : ""} sur {modules.length}
               <span>{progress}%</span>
             </div>
           </article>
@@ -902,7 +903,7 @@ export default function Home() {
                 <span className="heading-icon" aria-hidden="true">
                   ◫
                 </span>
-                <h2>Up next</h2>
+                <h2>À suivre</h2>
               </div>
               <h3>{selectedModule.title}</h3>
               <p className="lesson-meta">
@@ -914,7 +915,7 @@ export default function Home() {
                 type="button"
                 onClick={() => openModule(selectedModule.id)}
               >
-                <span aria-hidden="true">▤</span> Open lesson
+                <span aria-hidden="true">▤</span> Ouvrir la leçon
               </button>
             </div>
 
@@ -927,34 +928,34 @@ export default function Home() {
         <section className="planner-section" id="planner">
           <div className="planner-heading">
             <div>
-              <p className="section-kicker">Choose your pace</p>
-              <h2>How many days do you have?</h2>
+              <p className="section-kicker">Choisissez votre rythme</p>
+              <h2>Combien de jours avez-vous ?</h2>
               <p>
-                Pick anything from one intensive day to a two-week learning
-                sprint. Your modules and estimated workload update instantly.
+                Choisissez entre une journée intensive et un sprint de deux
+                semaines. Les modules et la charge estimée s’adaptent immédiatement.
               </p>
             </div>
 
             <div className="planner-summary" aria-live="polite">
               <span>
-                <small>Your sprint</small>
+                <small>Votre sprint</small>
                 <strong>
-                  {studyDays} {studyDays === 1 ? "day" : "days"}
+                  {studyDays} jour{studyDays > 1 ? "s" : ""}
                 </strong>
               </span>
               <span>
-                <small>Daily average</small>
+                <small>Moyenne quotidienne</small>
                 <strong>{formatMinutes(dailyAverage)}</strong>
               </span>
               <span>
-                <small>Total course</small>
+                <small>Durée totale</small>
                 <strong>{formatMinutes(totalCourseMinutes)}</strong>
               </span>
             </div>
           </div>
 
           <div className="pace-controls">
-            <div className="pace-presets" aria-label="Popular study durations">
+            <div className="pace-presets" aria-label="Durées d’apprentissage populaires">
               {[1, 3, 5, 7, 14].map((days) => (
                 <button
                   className={studyDays === days ? "is-active" : ""}
@@ -963,15 +964,15 @@ export default function Home() {
                   aria-pressed={studyDays === days}
                   onClick={() => chooseStudyDays(days)}
                 >
-                  {days} {days === 1 ? "day" : "days"}
+                  {days} jour{days > 1 ? "s" : ""}
                 </button>
               ))}
             </div>
 
             <label className="pace-range">
               <span>
-                Custom duration
-                <output>{studyDays} days</output>
+                Durée personnalisée
+                <output>{studyDays} jour{studyDays > 1 ? "s" : ""}</output>
               </span>
               <input
                 type="range"
@@ -979,12 +980,12 @@ export default function Home() {
                 max="14"
                 step="1"
                 value={studyDays}
-                aria-label="Number of study days"
+                aria-label="Nombre de jours d’apprentissage"
                 onChange={(event) => chooseStudyDays(Number(event.target.value))}
               />
               <span className="range-labels" aria-hidden="true">
-                <i>1 intensive day</i>
-                <i>14-day sprint</i>
+                <i>1 journée intensive</i>
+                <i>Sprint de 14 jours</i>
               </span>
             </label>
           </div>
@@ -993,7 +994,7 @@ export default function Home() {
             {studyPlan.map((planDay) => (
               <article className="study-day-card" key={planDay.day}>
                 <div className="study-day-heading">
-                  <span>Day {planDay.day}</span>
+                  <span>Jour {planDay.day}</span>
                   <strong>{formatMinutes(planDay.minutes)}</strong>
                 </div>
                 <div className="study-day-units">
@@ -1019,12 +1020,12 @@ export default function Home() {
         <section className="curriculum-section" id="modules">
           <div className="section-heading">
             <div>
-              <p className="section-kicker">The curriculum</p>
-              <h2>12 modules. One production service.</h2>
+              <p className="section-kicker">Le programme</p>
+              <h2>12 modules. Un service de production.</h2>
             </div>
             <p>
-              Each module ends with code, a practical deliverable and a focused
-              knowledge check.
+              Chaque module se termine par du code, un livrable pratique et une
+              vérification ciblée des connaissances.
             </p>
           </div>
 
@@ -1061,17 +1062,17 @@ export default function Home() {
 
         <section className="lesson-section" id="playground">
           <aside className="lesson-sidebar">
-            <p className="section-kicker">Lesson playground</p>
-            <h2>Your workbench</h2>
+            <p className="section-kicker">Atelier de leçon</p>
+            <h2>Votre établi</h2>
             <p>
-              Select a module, read the mental model, implement the task and
-              validate your understanding.
+              Sélectionnez un module, comprenez son modèle mental, réalisez
+              l’exercice et validez vos connaissances.
             </p>
 
-            <div className="sidebar-progress" aria-label={`${progress}% complete`}>
+            <div className="sidebar-progress" aria-label={`${progress}% terminé`}>
               <span style={{ width: `${progress}%` }} />
             </div>
-            <strong className="sidebar-progress-label">{progress}% complete</strong>
+            <strong className="sidebar-progress-label">{progress}% terminé</strong>
 
             <div className="sidebar-module-list">
               {modules.map((module) => (
@@ -1093,7 +1094,7 @@ export default function Home() {
 
             {completed.length > 0 && (
               <button className="reset-button" type="button" onClick={resetProgress}>
-                Reset progress
+                Réinitialiser la progression
               </button>
             )}
           </aside>
@@ -1111,13 +1112,13 @@ export default function Home() {
             <p className="lesson-summary">{selectedModule.summary}</p>
 
             <div className="lesson-block mental-model">
-              <span className="block-label">Mental model</span>
+              <span className="block-label">Modèle mental</span>
               <p>{selectedModule.mentalModel}</p>
             </div>
 
             <div className="lesson-columns">
               <div className="lesson-block">
-                <span className="block-label">You will be able to</span>
+                <span className="block-label">Vous saurez</span>
                 <ul className="objective-list">
                   {selectedModule.objectives.map((objective) => (
                     <li key={objective}>{objective}</li>
@@ -1126,9 +1127,9 @@ export default function Home() {
               </div>
 
               <div className="lesson-block task-block">
-                <span className="block-label">Hands-on task</span>
+                <span className="block-label">Exercice pratique</span>
                 <p>{selectedModule.task}</p>
-                <small>Deliverable</small>
+                <small>Livrable</small>
                 <strong>{selectedModule.deliverable}</strong>
               </div>
             </div>
@@ -1142,7 +1143,7 @@ export default function Home() {
                   lab.java
                 </span>
                 <button type="button" onClick={copyCode}>
-                  {copied ? "Copied ✓" : "Copy code"}
+                  {copied ? "Copié ✓" : "Copier le code"}
                 </button>
               </div>
               <pre>
@@ -1153,13 +1154,13 @@ export default function Home() {
             <div className="quiz-card">
               <div className="quiz-heading">
                 <div>
-                  <span className="block-label">Knowledge check</span>
+                  <span className="block-label">Vérification des connaissances</span>
                   <h3>{selectedModule.quiz.question}</h3>
                 </div>
                 <span className="quiz-count">1 question</span>
               </div>
 
-              <div className="quiz-options" role="radiogroup" aria-label="Quiz answers">
+              <div className="quiz-options" role="radiogroup" aria-label="Réponses au quiz">
                 {selectedModule.quiz.options.map((option, index) => {
                   const isSelected = selectedAnswer === index;
                   const isCorrect = checked && index === selectedModule.quiz.answer;
@@ -1202,7 +1203,7 @@ export default function Home() {
                   <strong>
                     {selectedAnswer === selectedModule.quiz.answer
                       ? "Correct."
-                      : "Not quite."}
+                      : "Pas tout à fait."}
                   </strong>{" "}
                   {selectedModule.quiz.explanation}
                 </p>
@@ -1215,7 +1216,7 @@ export default function Home() {
                   disabled={selectedAnswer === null}
                   onClick={() => setChecked(true)}
                 >
-                  Check answer
+                  Vérifier la réponse
                 </button>
                 <button
                   className={
@@ -1227,8 +1228,8 @@ export default function Home() {
                   onClick={toggleComplete}
                 >
                   {completed.includes(selectedId)
-                    ? "Completed ✓"
-                    : "Mark module complete"}
+                    ? "Terminé ✓"
+                    : "Marquer comme terminé"}
                 </button>
               </div>
             </div>
@@ -1236,16 +1237,16 @@ export default function Home() {
             <div className="lesson-navigation">
               <span>
                 {completed.includes(selectedId)
-                  ? "Progress saved on this device."
-                  : "Finish the task before marking this module complete."}
+                  ? "Progression enregistrée sur cet appareil."
+                  : "Terminez l’exercice avant de valider ce module."}
               </span>
               {nextModule ? (
                 <button type="button" onClick={() => openModule(nextModule.id)}>
-                  Next: {nextModule.title} →
+                  Suivant : {nextModule.title} →
                 </button>
               ) : (
                 <button type="button" onClick={() => openModule(1)}>
-                  Review from the start →
+                  Revoir depuis le début →
                 </button>
               )}
             </div>
@@ -1254,35 +1255,35 @@ export default function Home() {
 
         <section className="capstone-section">
           <div>
-            <p className="section-kicker">Capstone architecture</p>
-            <h2>Build something close to production.</h2>
+            <p className="section-kicker">Architecture du projet final</p>
+            <h2>Construisez un système proche de la production.</h2>
             <p>
-              The final Ticket Sync service ties REST, PostgreSQL, async
-              integration, observability and Kubernetes into one coherent
-              system you can explain in an interview.
+              Le service final de synchronisation de tickets réunit REST,
+              PostgreSQL, intégration asynchrone, observabilité et Kubernetes
+              dans un système cohérent que vous saurez expliquer en entretien.
             </p>
             <button type="button" onClick={() => openModule(12)}>
-              Open the capstone <span>→</span>
+              Ouvrir le projet final <span>→</span>
             </button>
           </div>
 
-          <div className="architecture-flow" aria-label="Capstone service flow">
+          <div className="architecture-flow" aria-label="Flux du service final">
             <div>
               <span>01</span>
               <strong>REST API</strong>
-              <small>Validate + authorize</small>
+              <small>Valider + autoriser</small>
             </div>
             <i>→</i>
             <div>
               <span>02</span>
               <strong>Application</strong>
-              <small>Rules + transaction</small>
+              <small>Règles + transaction</small>
             </div>
             <i>→</i>
             <div>
               <span>03</span>
-              <strong>Outbox worker</strong>
-              <small>Idempotent sync</small>
+              <strong>Worker outbox</strong>
+              <small>Synchronisation idempotente</small>
             </div>
           </div>
         </section>
@@ -1295,7 +1296,7 @@ export default function Home() {
               </span>
               <span>Spring Boot Lab</span>
             </a>
-            <p>A focused learning path for working software engineers.</p>
+            <p>Un parcours ciblé pour les ingénieurs logiciels en activité.</p>
           </div>
           <div className="footer-links">
             <a
@@ -1303,7 +1304,7 @@ export default function Home() {
               target="_blank"
               rel="noreferrer"
             >
-              Official reference ↗
+              Documentation officielle ↗
             </a>
             <a
               href="https://start.spring.io/"
@@ -1314,8 +1315,8 @@ export default function Home() {
             </a>
           </div>
           <p className="version-note">
-            Updated for Spring Boot 4.1 · Java 17+ required · Java 21 used in
-            examples
+            Mis à jour pour Spring Boot 4.1 · Java 17+ requis · Java 21 utilisé
+            dans les exemples
           </p>
         </footer>
       </div>
